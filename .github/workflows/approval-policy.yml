@@ -1,10 +1,15 @@
 name: approval-check
 
 on:
-  pull_request_review:
-    types: [submitted, dismissed]
   pull_request:
     types: [opened, synchronize, reopened]
+
+  pull_request_review:
+    types: [submitted, dismissed]
+
+concurrency:
+  group: approval-check-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
 
 jobs:
   approval-check:
